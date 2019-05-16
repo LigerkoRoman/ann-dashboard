@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static '/css/style.css' %}">
+	<title>
+
+  </title>
+
+</head>
+<body>
+	<main>
+		<menu>
+			<nav class="menu">
+				<ul class="menu-list">
+					<li class="port"><img src="" alt=""></li>
+					<li class="port"><a href="{% url 'dash' %}" >Dashboard</a></li>
+					<li class="port"><a href="#">Table</a></li>
+					<li class="port"><a href="#">Admin</a></li>
+					<li class="port"><a href="#">Load data</a></li>
+				</ul>
+		</menu>
+
+		<div class="button-group">
+			<a href="" onclick="show()">Cola1</a>
+			<a href="{% url 'display_data' %}">ColaFridge</a>
+			<a href="">ColaRedShelf</a>
+			<a href="">Panorama</a>
+
+		</div>
+
+		<div class="divGraph" id="divChart">
+			<h3 style="text-align: center; display: none" id="h3">Diagonals</h3>
+			<canvas id="myChart" class="graph" height="300px"></canvas>
+
+	 </div>
+					
+	<!--	<table>
+			<thead>
+				<tr>
+
+					<th>Labels</th>
+					<th>Diagonals</th>
+					<th>Sides</th>
+					<th>Position_x</th>
+					<th>Positions_y</th>
+					<th>Names</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for item in items %}
+					<tr>
+
+						<td>{{ item.label }}</td>
+						<td>{{ item.diagonals }}</td>
+						<td>{{ item.sides }}</td>
+						<td>{{ item.positions }}</td>
+						<td>{{ item.positions_y }}</td>
+						<td>{{ item.name }}</td>
+					</tr>
+
+				{% endfor %}
+			</tbody>
+
+		</table>-->
+
+
+	</main>
+</body>
+<script>
+
+function show()
+		 {
+				 $.ajax({
+					 type: 'GET',
+						 url:"{% url 'add_ajax' %}",
+						 cache: false,
+						 success: function(data){
+							 console.log(data['co_data'])
+							 var chart2 = new Chart(document.getElementById('myChart').getContext('2d'), {
+									 // The type of chart we want to create
+									 type: 'line',
+
+									 // The data for our dataset
+									 data: {
+											 labels:data['len_d'],
+											 datasets: [
+
+												 {
+													 label: 'cap',
+													 pointRadius:"20px",
+
+													 backgroundColor: 'rgb(204, 204, 255, 0.4)',
+													 borderColor: 'rgb(255, 99, 132, 0.4)',
+													 data: data['div_arr'],
+											 },
+
+
+
+									 ]
+
+									 },
+
+									 // Configuration options go here
+									 options: {}
+
+							 });
+
+						 }
+				 });
+		 }
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</html>

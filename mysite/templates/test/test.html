@@ -1,0 +1,509 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static '/css/style.css' %}">
+	<title>
+    {% block title %}
+
+    {% endblock %}
+  </title>
+
+</head>
+<body>
+	<main>
+		<menu>
+			<nav class="menu">
+				<ul class="menu-list">
+					<li class="port"><img src="" alt=""></li>
+					<li class="port"><a href="{% url 'dash' %}" >Dashboard</a></li>
+					<li class="port"><a href="{% url 'table' %}">Table</a></li>
+					<li class="port"><a href="{% url 'test' %}">Admin</a></li>
+					<li class="port"><a href="#">Load data</a></li>
+				</ul>
+		</menu>
+
+
+    <div class="glob-wrap">
+
+            <ul class="but-wrapper">
+
+          		<li>
+            	  <a href="#" class="dash-but" onclick="updateConfigAsNewObject()" >Cola1</a>
+          		</li>
+
+          		<li>
+          	  	<a href="#" class="dash-but" id="ajax-text-me" onclick="showColaFridge()">Cola fridge</a>
+          		</li>
+          	 	<li>
+          	  	<a href="#" class="dash-but"  id="ajax-text-me2" onclick="showColaRedShelf()">Cola red shelf</a>
+          		</li>
+
+          		<li>
+          	  	<a href="#" class="dash-but" id="ajax-text-me3">Panorama</a>
+          		</li>
+
+          	</ul>
+    <div class="graph" >
+
+    				<div class="graph-wrap" >
+
+    					<div class="divGraph" id="divChart">
+    						<h3 style="text-align: center; display: none" id="h3">Diagonals</h3>
+    			      <canvas id="myChart" class="graph" height="300px"></canvas>
+
+    	  		 </div>
+    				 <div class="divGraph" id="divChart2" style="margin-top:-50px">
+    					 <h3 style="text-align: center; display: none" id="h3">Sides Atittudes</h3>
+    					 <canvas id="myChart2" class="graph" height="300px"></canvas>
+
+    				</div>
+
+    			</div>
+    			<div class="graph2-wrap" style="margin-top:50px; margin-left:35px">
+    				<canvas id="myChart-rad" height="500px" width="500px"></canvas>
+    			</div>
+
+    </div>
+
+
+
+    	</div>
+	</main>
+</body>
+
+<script>
+
+
+  		 function showColaFridge(){
+  	 $.ajax({
+
+  			 type: 'GET',
+  			 cach: false,
+  			 async: false,
+  			 url:  "{% url 'add_ajax' %}",
+  			 data: "inputs + '&ran=' + Math.rand()",
+  			 success: function(data) {
+
+  					 var co_data = data['co_data']
+  					 var len_d = data['len_d']
+
+  					 var div_arr = data['div_arr']
+  					 var div_arr_l = data['div_arr_l']
+  					 var div_arr_cap_fan = data['div_arr_cap_fan']
+  					 var div_arr_cap_spr = data['div_arr_cap_spr']
+  					 var div_arr_l_fan = data['div_arr_l_fan']
+  					 var div_arr_l_spr = data['div_arr_l_spr']
+  					 var div_arr_b = data['div_arr_b ']
+  					 var div_arr_b_fan = data['div_arr_b_fan']
+  					 var div_arr_b_spr = data['div_arr_b_spr']
+
+  					 var s_arr = data['s_arr']
+  					 var s_arr_l = data['s_arr_l']
+  					 var s_arr_cap_fan = data['s_arr_cap_fan']
+  					 var s_arr_cap_spr = data['s_arr_cap_spr']
+  					 var s_arr_l_fan = data['s_arr_l_fan']
+  					 var s_arr_l_spr = data['s_arr_l_spr']
+  					 var s_arr_b = data['s_arr_b ']
+  					 var s_arr_b_fan = data['s_arr_b_fan']
+  					 var s_arr_b_spr = data['s_arr_b_spr']
+
+
+  					 var ctx_rad = document.getElementById('myChart-rad').getContext('2d');
+
+  					 var rad_graph = new Chart(ctx_rad, {
+  						 responsive:true,
+  							 data:{
+  							 datasets: [{
+  									 data: co_data,
+  									 backgroundColor: ['red','yellow','lightgreen','purple','lightblue','black','grey','brown','orange']
+  							 }],
+  							 // These labels appear in the legend and in the tooltips when hovering different arcs
+  							 labels: [
+  									 'Cap',
+  									 'Cap-fanta',
+  									 'Cap-sprite',
+  									 'Label',
+  									 'Label-fanta',
+  									 'Label-sprite',
+  									 'Bottle 1L',
+  									 'Bottle 1.5L',
+  									 'Bottle 2L'
+  							 ],
+  					 },
+  							 type: 'polarArea',
+  					 });
+
+
+  					 var ctx = document.getElementById('myChart').getContext('2d');
+  					 var chart = new Chart(ctx, {
+  							 // The type of chart we want to create
+  							 type: 'line',
+
+  							 // The data for our dataset
+  							 data: {
+  									 showLine:false,
+  									 labels: len_d,
+  									 datasets: [
+
+  										 {
+
+
+  											 label: 'cap',
+  											 pointRadius:"20px",
+
+  											 backgroundColor: 'rgb(204, 204, 255, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr,
+  									 },
+  									 {
+
+  												 pointRadius:"20px",
+  											 label: 'cap fanta',
+
+  											 backgroundColor: 'rgb(55, 52, 12, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_cap_fan,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'cap sprite',
+
+  											 backgroundColor: 'rgb(115, 5, 122, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_cap_spr,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'label',
+
+  											 backgroundColor: 'rgb(254, 202, 15, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_l,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'label fanta',
+
+  											 backgroundColor: 'rgb(15, 25, 142, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_l_fan,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'label sprite',
+
+  											 backgroundColor: 'rgb(141, 65, 242, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_l_spr,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'bottle 0.5L',
+
+  											 backgroundColor: 'rgb(11, 6, 2, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_b,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'bottle 0.5L fanta',
+
+  											 backgroundColor: 'rgb(111, 62, 22, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: div_arr_b_fan,
+  									 },
+  									 {
+  										 pointRadius:"20px",
+  											 label: 'bottle 0.5L sprite',
+
+  											 backgroundColor: 'rgb(1, 64, 2, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data:div_arr_b_spr,
+  									 }
+  							 ]
+
+  							 },
+
+  							 // Configuration options go here
+  							 options: {}
+  					 });
+
+
+  					 var ctx2 = document.getElementById('myChart2').getContext('2d');
+  					 var chart2 = new Chart(ctx2, {
+  							 // The type of chart we want to create
+  							 type: 'line',
+
+  							 // The data for our dataset
+  							 data: {
+  									 labels:len_d,
+  									 datasets: [
+
+  										 {
+  											 label: 'cap',
+  											 pointRadius:"20px",
+
+  											 backgroundColor: 'rgb(204, 204, 255, 0.4)',
+  											 borderColor: 'rgb(255, 99, 132, 0.4)',
+  											 data: s_arr,
+  									 },
+  									 { pointRadius:"20px",
+  										 label: 'cap fanta',
+
+  										 backgroundColor: 'rgb(55, 52, 12, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_cap_fan,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'cap sprite',
+
+  										 backgroundColor: 'rgb(115, 5, 122, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_cap_spr,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'label',
+
+  										 backgroundColor: 'rgb(254, 202, 15, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_l,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'label fanta',
+
+  										 backgroundColor: 'rgb(15, 25, 142, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_l_fan,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'label sprite',
+
+  										 backgroundColor: 'rgb(141, 65, 242, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_l_spr,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'bottle 0.5L',
+
+  										 backgroundColor: 'rgb(11, 6, 2, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_b,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'bottle 0.5L fanta',
+
+  										 backgroundColor: 'rgb(111, 62, 22, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_b_fan,
+  								 },
+  								 {		pointRadius:"20px",
+  										 label: 'bottle 0.5L sprite',
+
+  										 backgroundColor: 'rgb(1, 64, 2, 0.4)',
+  										 borderColor: 'rgb(255, 99, 132, 0.4)',
+  										 data: s_arr_b_spr,
+  								 }
+
+  							 ]
+
+  							 },
+
+  							 // Configuration options go here
+  							 options: {}
+  					 });
+
+
+
+  				 },
+  dataType: 'json',
+
+  });
+
+  		 }
+
+
+
+       function showColaRedShelf(){
+            $.ajax({
+                cache: false,
+                type: 'GET',
+                async: false,
+
+
+                url:  "{% url 'add_ajaxtwo' %}",
+                data:"inputs + '&ran=' + Math.rand()",
+                success: function(data) {
+
+                    var co_data = data['co_data']
+                    var len_d = data['len_d']
+
+                    var div_arr_cap = data['div_arr_cap']
+                    var div_arr_l = data['div_arr_l']
+                    var div_arr_b_one = data['div_arr_b_one']
+                    var div_arr_b_pol = data['div_arr_b_pol']
+                    var div_arr_b_two = data['div_arr_b_two']
+
+
+                    var s_arr_cap = data['s_arr_cap']
+                    var s_arr_l = data['s_arr_l']
+                    var s_arr_b_one = data['s_arr_b_one']
+                    var s_arr_b_pol = data['s_arr_b_pol']
+                    var s_arr_b_two = data['s_arr_b_two']
+
+                    var ctx_rad = document.getElementById('myChart-rad').getContext('2d');
+
+                    var rad_graph = new Chart(ctx_rad, {
+                      responsive:true,
+                        data:{
+                        datasets: [{
+                            data: co_data,
+                            backgroundColor: ['red','yellow','lightgreen','purple','lightblue']
+                        }],
+                        // These labels appear in the legend and in the tooltips when hovering different arcs
+                        labels: [
+                            'Cap',
+                            'Label',
+                            'Bottle 1L',
+                            'Bottle 1.5L',
+                            'Bottle 2L',
+
+                        ],
+                    },
+                        type: 'polarArea',
+                    });
+
+
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'line',
+
+                        // The data for our dataset
+                        data: {
+                            showLine:false,
+                            labels: len_d,
+                            datasets: [
+
+                              {
+                                label: 'cap',
+                                pointRadius:"20px",
+
+                                backgroundColor: 'rgb(204, 204, 255, 0.4)',
+                                borderColor: 'rgb(255, 99, 132, 0.4)',
+                                data: div_arr_cap,
+                            },
+                            {
+
+                                  pointRadius:"20px",
+                                label: 'label',
+
+                                backgroundColor: 'rgb(55, 52, 12, 0.4)',
+                                borderColor: 'rgb(255, 99, 132, 0.4)',
+                                data: div_arr_l,
+                            },
+                            {
+                              pointRadius:"20px",
+                                label: 'bottle 1L',
+
+                                backgroundColor: 'rgb(115, 5, 122, 0.4)',
+                                borderColor: 'rgb(255, 99, 132, 0.4)',
+                                data: div_arr_b_one,
+                            },
+                            {
+                              pointRadius:"20px",
+                                label: 'bottle 1.5L',
+
+                                backgroundColor: 'rgb(254, 202, 15, 0.4)',
+                                borderColor: 'rgb(255, 99, 132, 0.4)',
+                                data: div_arr_b_pol,
+                            },
+                            {
+                                pointRadius:"20px",
+                                label: 'bottle 2L',
+
+                                backgroundColor: 'rgb(15, 25, 142, 0.4)',
+                                borderColor: 'rgb(255, 99, 132, 0.4)',
+                                data: div_arr_b_two,
+                            }
+
+                        ]
+
+                        },
+
+                        // Configuration options go here
+                        options: {}
+                    });
+
+
+                    var ctx2 = document.getElementById('myChart2').getContext('2d');
+                    var chart2 = new Chart(ctx2, {
+                        // The type of chart we want to create
+                        type: 'line',
+
+                        // The data for our dataset
+                        data: {
+                            labels:len_d,
+                            datasets: [
+
+                              {
+                                label: 'cap',
+                                pointRadius:"20px",
+
+                                backgroundColor: 'rgb(204, 204, 255, 0.4)',
+                                borderColor: 'rgb(255, 99, 132, 0.4)',
+                                data: s_arr_cap,
+                            },
+                            { pointRadius:"20px",
+                              label: 'label',
+
+                              backgroundColor: 'rgb(55, 52, 12, 0.4)',
+                              borderColor: 'rgb(255, 99, 132, 0.4)',
+                              data: s_arr_l,
+                          },
+                          {		pointRadius:"20px",
+                              label: 'bottle 1L',
+
+                              backgroundColor: 'rgb(115, 5, 122, 0.4)',
+                              borderColor: 'rgb(255, 99, 132, 0.4)',
+                              data: s_arr_b_one,
+                          },
+                          {		pointRadius:"20px",
+                              label: 'bottle 1.5L',
+
+                              backgroundColor: 'rgb(254, 202, 15, 0.4)',
+                              borderColor: 'rgb(255, 99, 132, 0.4)',
+                              data: s_arr_b_pol,
+                          },
+                          {		pointRadius:"20px",
+                              label: 'bottle 2L',
+
+                              backgroundColor: 'rgb(15, 25, 142, 0.4)',
+                              borderColor: 'rgb(255, 99, 132, 0.4)',
+                              data: s_arr_b_two,
+                          },
+
+
+                        ]
+
+                        },
+
+                        // Configuration options go here
+                        options: {}
+                    });
+
+
+
+                      },
+              dataType: 'json',
+              });
+
+       }
+</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js" ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+</html>

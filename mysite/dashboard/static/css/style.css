@@ -1,0 +1,113 @@
+*{
+	font-size: 15px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+main{
+
+	display:flex;
+	width: 97%;
+	margin: 0 auto;
+	height: 800px;
+	padding: 10px;
+
+	background-color: lightgrey;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+menu{
+	border-radius: 5px;
+
+	min-width: 12%;
+	background-color: grey;
+	box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+
+.menu>ul>li>a{
+	display: block;
+	padding: 10px;
+	color: lightgrey;
+	text-decoration: none;
+}
+.menu>ul>li>a:hover{
+	color:grey;
+}
+a{
+	margin: 0 15px;
+	border-bottom: 1px solid darkgrey;
+}
+a:hover{
+	background: lightgrey;
+
+}
+
+.port{
+	font-size: 18px;
+	font-family: sans-serif;
+	display: block;
+}
+
+.menu-list{
+	text-align: center;
+	width: 100%;
+}
+
+.but-wrapper{
+	min-width: 60%;
+  margin: 0 auto;
+  display: flex;
+	justify-content:flex-start;
+}
+*{
+	font-family:sans-serif;
+}
+.but-wrapper>li{
+display:block;
+}
+.dash-but{
+		box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border: 1px solid darkgrey;
+  width: 120px;
+	height: 30px;
+  background-color: grey;
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  color:lightgrey
+
+}
+.dash-but:hover{
+  color:grey;
+}
+.glob-wrap{
+
+	margin: 0 auto;
+	width: 90%;
+
+}
+.graph{
+	display: flex;
+
+	width: 90%;
+
+}
+.graph-wrap{
+	margin-right: 0;
+	margin-left: 10px;
+
+	width: 50%;
+}
+
+.divGraph{
+width: 600px;
+	padding: 30px;
+	margin-bottom: 30px;
+}
+.graph2-wrapper{
+	background-color: red;
+	height: 100px;s
+}
